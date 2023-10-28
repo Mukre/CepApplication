@@ -1,4 +1,4 @@
-package com.teste.crudapplication;
+package com.teste.crudapplication.views;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

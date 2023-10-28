@@ -1,4 +1,4 @@
-package com.teste.crudapplication;
+package com.teste.crudapplication.models.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

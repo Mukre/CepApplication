@@ -1,10 +1,5 @@
-package com.teste.crudapplication;
+package com.teste.crudapplication.models;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -115,13 +110,6 @@ public class Cep {
         this.siafi = siafi;
     }
 
-    public static boolean validaCep(String cep)
-    {
-        Pattern p = Pattern.compile("[0-9]{5}[0-9]{3}");
-        Matcher m = p.matcher(cep);
-        boolean b = m.matches();
-        return b;
-    }
 
     @Override
     public String toString() {

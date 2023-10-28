@@ -1,17 +1,11 @@
-package com.teste.crudapplication;
+package com.teste.crudapplication.models.database;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
-import com.google.gson.Gson;
+import com.teste.crudapplication.models.Cep;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +17,10 @@ public class CepDAO {
         gw = DbGateway.getInstance(ctx);
     }
 
-    public boolean salvar(Cep cep){
+    public boolean save(Cep cep){
+        if(cepExists(cep.getCep())){
+
+        }
         Cursor cursor = gw.getDb().rawQuery("SELECT * FROM "+TABLE_CEP+" ORDER BY id DESC", null);
         ContentValues cv = new ContentValues();
         cv.put("cep", cep.getCep());
@@ -40,7 +37,7 @@ public class CepDAO {
         return gw.getDb().insert(TABLE_CEP, null, cv) > 0;
     }
 
-    public List<Cep> retornarTodos(){
+    public List<Cep> returnAll(){
         List<Cep> ceps = new ArrayList<>();
         Cursor cursor = gw.getDb().rawQuery("SELECT * FROM "+TABLE_CEP+" ORDER BY id DESC", null);
         while (cursor.moveToNext()) {
@@ -72,7 +69,7 @@ public class CepDAO {
         return null;
     }
 
-    public boolean verificarCep(String cep){
+    public boolean cepExists(String cep){
         Cursor cursor = gw.getDb().rawQuery("SELECT 1 FROM "+TABLE_CEP+" WHERE cep=?", new String[]{cep});
         int count = cursor.getCount();
         cursor.close();
@@ -82,40 +79,6 @@ public class CepDAO {
    public boolean excluir(String cep){
         return gw.getDb().delete(TABLE_CEP, "cep=?", new String[]{cep + ""}) > 0;
    }
-
-    public static Cep getLocation(String stringCep) throws Exception {
-        Cep cep = new Cep(stringCep);
-        URL url = new URL("https://viacep.com.br/ws/"+ stringCep +"/json/");
-        URLConnection conexao = url.openConnection();
-
-        InputStream is = conexao.getInputStream();
-
-        BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
-
-        String jcep = "";
-
-        StringBuilder jsoncep = new StringBuilder();
-
-        while((jcep = br.readLine()) != null){
-            jsoncep.append(jcep);
-        }
-        if (!jsoncep.toString().contains("erro")) {
-            Cep cepAux = new Gson().fromJson(jsoncep.toString(), Cep.class);
-
-            cep.setBairro(cepAux.getBairro());
-            cep.setComplemento(cepAux.getComplemento());
-            cep.setDdd(cepAux.getDdd());
-            cep.setGia(cepAux.getGia());
-            cep.setIbge(cepAux.getIbge());
-            cep.setLocalidade(cepAux.getLocalidade());
-            cep.setLogradouro(cepAux.getLogradouro());
-            cep.setUf(cepAux.getUf());
-            cep.setSiafi(cepAux.getSiafi());
-
-            return cep;
-        }
-        else return null;
-    }
 
     public Cep retornarCep(String cep){
         Cursor cursor = gw.getDb().rawQuery("SELECT * FROM "+TABLE_CEP+" WHERE cep = ?", new String[]{cep});

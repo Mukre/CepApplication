@@ -45,9 +45,8 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.0") {
         because("kotlin-stdlib-jdk8 is now a part of kotlin-stdlib")
     }
-
     implementation("com.google.code.gson:gson:2.8.7")
-
+    implementation("com.android.volley:volley:1.2.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
