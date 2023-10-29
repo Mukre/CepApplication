@@ -97,8 +97,7 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onClick(View v) {
                             try {
-                                if(viewModel.saveCep(dao, adapter, MainActivity.this));
-                                textViewLocation.setText(dao.retornarUltimo().toString());
+                                HttpRequests.searchLocation(viewModel.getCepDigitado().getValue(), MainActivity.this, adapter, dao);
                             } catch (Exception e) {
                                 throw new RuntimeException(e);
                             }
